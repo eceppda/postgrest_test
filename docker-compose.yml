@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:14.5
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    volumes:
+      - ./init/:/docker-entrypoint-initdb.d/
+
+  api:
+    image: postgrest/postgrest:v9.0.1.20220802
+    ports:
+      - '3000:3000'
+    environment:
+      PGRST_DB_URI: postgres://test_user:test_password@db:5432/test
+      PGRST_DB_SCHEMA: test
+      PGRST_DB_ANON_ROLE: web_anon
+    depends_on:
+      - db
