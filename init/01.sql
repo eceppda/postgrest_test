@@ -1,7 +1,5 @@
 CREATE SCHEMA test;
 
-\c test;
-
 create role web_anon nologin;
 
 grant usage on schema test to web_anon;
